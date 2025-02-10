@@ -1,0 +1,41 @@
+USE master
+GO
+CREATE DATABASE ASM
+GO
+USE ASM
+GO
+CREATE TABLE Users (
+    Id NVARCHAR(50) PRIMARY KEY,
+    Password NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(100) NOT NULL,
+    Fullname NVARCHAR(100),
+    Admin BIT NOT NULL
+);
+
+CREATE TABLE Video (
+    Id NVARCHAR(50) PRIMARY KEY,
+    Title NVARCHAR(100) NOT NULL,
+    Poster NVARCHAR(255),
+    Views INT DEFAULT 0,
+    Description NVARCHAR(MAX),
+    Active BIT NOT NULL
+);
+
+CREATE TABLE Favorite (
+    Id BIGINT PRIMARY KEY IDENTITY,
+    UserId NVARCHAR(50) NOT NULL,
+    VideoId NVARCHAR(50) NOT NULL,
+    LikeDate DATE,
+    FOREIGN KEY (UserId) REFERENCES Users(Id),
+    FOREIGN KEY (VideoId) REFERENCES Video(Id)
+);
+
+CREATE TABLE Share (
+    Id BIGINT PRIMARY KEY IDENTITY,
+    UserId NVARCHAR(50) NOT NULL,
+    VideoId NVARCHAR(50) NOT NULL,
+    Emails NVARCHAR(255),
+    ShareDate DATE,
+    FOREIGN KEY (UserId) REFERENCES Users(Id),
+    FOREIGN KEY (VideoId) REFERENCES Video(Id)
+);
